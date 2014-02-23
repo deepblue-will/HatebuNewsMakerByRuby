@@ -1,0 +1,8 @@
+format1:
+   outer_start: <div class="news">
+   outer_end: </div>
+   inner:
+format2: 
+   outer_start: <ul class="news">
+   outer_end: </ul>
+   inner: <li class="news_item"><a href="%{url}" target="_blank">%{title}</a></li>
