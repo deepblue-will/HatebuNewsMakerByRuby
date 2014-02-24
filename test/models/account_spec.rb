@@ -1,16 +1,13 @@
-# coding: UTF-8
+# encoding: utf-8
 
 require 'rspec'
-require '../../src/models/account'
+require_relative '../../src/models/account'
 
 describe Account do
    before do
-      @target = Account.new("../../resources/")
+      @target = Account.new
    end
-   it "idが取得できること" do
-      @target.id.should == "hoge"
-   end
-   it "passwordが取得できること" do
-      @target.password.should == "hogehoge"
+   it "nameが取得できること" do
+      @target.name.should == "deepblue_will"
    end
 end
