@@ -1,20 +1,21 @@
 # encoding: utf-8
 
-require_relative "models/account"
+require_relative "models/setting"
 require_relative "models/template"
+require_relative "hatebu_acceeser"
 
-require "net/http"
-require "uri"
+user_name = ""
+api_key = ""
 
-HATEBU_FEED_URL = "http://b.hatena.ne.jp/{account_name}/rss"
+acceeser = HatebeAccesser.new({"user_name" => user_name, "api_key" => api_key})
 
+atom_feed = acceeser.get_atom_feed
 
-uri = URI.parse(HATEBU_FEED_URL.gsub("{account_name}", Account.new.name))
+puts atom_feed.entries[0].link.href
+puts atom_feed.entries[0].title.content
+# tag
+puts atom_feed.entries[0].dc_subjects[0].content
+# comment
+puts atom_feed.entries[0].summary.content
 
-request = Net::HTTP::Get.new(uri.path + "?date=20140224")
-
-response = Net::HTTP.start(uri.host) do |http|
-   http.get(uri.path)
-end
-
-print response.body
+puts response.body
