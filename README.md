@@ -46,20 +46,17 @@
 
 ###template.yml
 まとめ記事を作成するためのフォーマットを定義するファイルです。  
+フォーマットは複数定義可能です(スクリプト実行時にどのフォーマットを使用するか指定する)  
 ここで設定するフォーマットには以下の変数が使用できます。  
 
-%url%
-:    サイトのURL
-
-%title%
-:    サイトのタイトル
-
-%comment%
-:    はてブコメント
+`%url%` : サイトのURL  
+`%title%` : サイトのタイトル  
+`%comment%` : はてブコメント  
 
 `resources/template.yml`
 
-    format{n}:                       # {n}は数字(スクリプト実行時はこの数字を指定)。この塊を複数書くことで、複数のフォーマットを指定できます。
+    # {n}は数字(スクリプト実行時はこの数字を指定)。この塊を複数書くことで、複数のフォーマットを指定できます。
+    format{n}: 
        outer_start: <ul class="news">
        outer_end: </ul>
        inner: <li class="news_item"><a href="%url%" target="_blank">%title%</a></li>
