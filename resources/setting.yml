@@ -1,9 +1,11 @@
 account:
-   name: deepblue_will
-   api_key: xxxxxx
+   user_name: deepblue_will
 proxy:
    host:
    port:
    user_name:
    password:
+get_feed_policy:
+   max_days: 14
+   get_pages: 1
    

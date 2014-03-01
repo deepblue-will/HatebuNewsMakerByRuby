@@ -2,20 +2,19 @@
 
 require_relative "models/setting"
 require_relative "models/template"
+require_relative "models/search_option"
 require_relative "hatebu_acceeser"
 
-user_name = ""
-api_key = ""
+require "date"
 
-acceeser = HatebeAccesser.new({"user_name" => user_name, "api_key" => api_key})
+user_name = "deepblue_will"
+api_key = "vi1jti7dfs"
 
-atom_feed = acceeser.get_atom_feed
+setting = Setting.new
+option = SearchOption.new(setting.policy, "20140224", "20140228")
+acceeser = HatebeAccesser.new(user_name)
 
-puts atom_feed.entries[0].link.href
-puts atom_feed.entries[0].title.content
-# tag
-puts atom_feed.entries[0].dc_subjects[0].content
-# comment
-puts atom_feed.entries[0].summary.content
+entries = acceeser.get_atom_feed_entries(option)
 
-puts response.body
+template = Template.new("2")
+puts template.get_tags(entries)

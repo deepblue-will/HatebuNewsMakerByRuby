@@ -8,17 +8,15 @@ require "digest/sha1"
 require "base64"
 
 class HatebeAccesser
-   HATEBU_ATOM_FEED_URL = "http://b.hatena.ne.jp/atom/feed"
+   HATEBU_ATOM_FEED_URL = "http://b.hatena.ne.jp/{user_name}/atomfeed"
    
-   def initialize(account, proxy={})
+   def initialize(user_name, proxy={})
+      @user_name = user_name
       @proxy = proxy
-      @wsse_header = create_wsse_header(account)
    end
    
-   def get_atom_feed(start_date="", end_date="", tag="")
-      uri = URI.parse(HATEBU_ATOM_FEED_URL)
-      header = {"X-WSSE" => @wsse_header, "Accept" => "application/x.atom+xml, application/xml, text/xml, */*"}
-      request = Net::HTTP::Get.new(uri.path, header)
+   def get_atom_feed_entries(option)
+      uri = URI.parse(HATEBU_ATOM_FEED_URL.sub("{user_name}", @user_name))
       http_class = 
       if @proxy["host"].nil?
          Net::HTTP
@@ -26,26 +24,16 @@ class HatebeAccesser
          Net::HTTP.Proxy(@proxy["host"], @proxy["port"], @proxy["user_name"], @proxy["password"])
       end
 
-      response = http_class.start(uri.host){|http| http.request(request)}
+      entries = []
+      option.to_query_params.each do |param|
+         request = Net::HTTP::Get.new(uri.path + param)
+         response = http_class.start(uri.host){|http| http.request(request)}
 
-      if response.code != "200"
-         raise StandardError.new("はてブを取得できませんでした。#{response.body}")
+         if response.code != "200"
+            raise StandardError.new("はてブを取得できませんでした。#{response.body}")
+         end
+         entries += RSS::Parser.parse(response.body, false).entries
       end
-
-      RSS::Parser.parse(response.body, false)
+      entries
    end
-   
-   private
-      def create_wsse_header(account)
-         nonce = Digest::SHA1.digest("#{Time.now.to_f + rand}")
-         created = Time.now.iso8601
-         password_digest = Base64.encode64(Digest::SHA1.digest(nonce + created + account["api_key"])).chomp
-         
-         [
-            "UsernameToken Username=\"#{account["user_name"]}\"",
-            "PasswordDigest=\"#{password_digest}\"",
-            "Nonce=\"#{Base64.encode64(nonce).chomp}\"",
-            "Created=\"#{created}\""
-         ].join(",")
-      end
 end
