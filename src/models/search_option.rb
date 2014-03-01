@@ -25,7 +25,8 @@ class SearchOption
       def during_start_end_dates
          begin
             start_date = Date.parse(@start_date)
-            end_date = Date.parse(@end_date)
+            end_date = @end_date.empty? ? start_date : Date.parse(@end_date)
+
             max_days = @policy["max_days"]
             days = (end_date - start_date).to_i
 

@@ -1,8 +1,8 @@
 format1:
    outer_start: <div class="news">
    outer_end: </div>
-   inner:
+   inner: <a href="%url%" rel="nofollow" target="_blank"><img src="http://capture.heartrails.com/150x150/shadow?%url%" alt="%title%" width="150" height="130" style="float:left;"/>%title%</a><div style="margin-top:10px;font-size:9pt;color:#999">%comment%</div><div style="clear:both;"></div>
 format2: 
    outer_start: <ul class="news">
    outer_end: </ul>
-   inner: <li class="news_item"><a href="%{url}" target="_blank">%{title}</a></li>
+   inner: <li class="news_item"><a href="%url%" target="_blank">%title%</a></li>

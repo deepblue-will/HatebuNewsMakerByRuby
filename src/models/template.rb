@@ -1,6 +1,5 @@
 # encoding: utf-8
-
-# coding: UTF-8
+# encoding: utf-8
 
 require "yaml"
 class Template
@@ -8,9 +7,9 @@ class Template
    FILE_PATH = File.expand_path("../../../resources/#{FILE_NAME}", __FILE__)
    
    # テンプレート中の置換文字
-   URL_VAR = "%{url}"
-   TITLE_VAR = "%{title}"
-   COMMENT_VAR = "%{comment}"
+   URL_VAR = "%url%"
+   TITLE_VAR = "%title%"
+   COMMENT_VAR = "%comment%"
 
 
    attr_reader :outer_start, :outer_end, :inner
@@ -24,9 +23,9 @@ class Template
          raise StandardError.new("テンプレートファイルに指定のフォーマットが定義されてません。")
       end
 
-      @outer_start = format["outer_start"]
-      @outer_end = format["outer_end"]
-      @inner = format["inner"]
+      @outer_start = format["outer_start"] || ""
+      @outer_end = format["outer_end"] || ""
+      @inner = format["inner"] || ""
    end
    
    def get_tags(entries)
@@ -36,7 +35,7 @@ class Template
       entries.each{|entry| tags << replace_template(entry)}
       tags << @outer_end
       
-      tags.join("\n")
+      tags.reject(&:empty?).join("\n")
    end
    
    private 
