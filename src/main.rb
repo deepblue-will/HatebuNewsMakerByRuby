@@ -9,7 +9,6 @@ require_relative "option_inputer"
 require "date"
 
 FILE_NAME = "hatebu_no_matome" + DateTime.now.strftime("%Y%m%d%H%M%S") + ".txt"
-FILE_PATH = File.expand_path("../../target/#{FILE_NAME}", __FILE__)
 
 setting = Setting.new
 input_option = OptionInputer.new
@@ -21,4 +20,5 @@ entries = acceeser.get_atom_feed_entries(option)
 template = Template.new(input_option.format)
 tags = template.get_tags(entries)
 
-File.open(FILE_PATH, "w"){|file| file.puts(tags)}
+file_path = "#{setting.export_dir}/#{FILE_NAME}"
+File.open(file_path, "w"){|file| file.puts(tags)}

@@ -1,6 +1,6 @@
 #HatebuNewsMakerByRuby
 はてブしたサイトのまとめ記事を作るためのRubyスクリプトです。  
-実行すると、targetディレクトリにファイルが出力されます。
+実行すると、指定のディレクトリにファイルが出力されます。
 
 ##使い方
 ###はてブアカウント名を設定する
@@ -9,6 +9,12 @@
 
     account:
        user_name: ここにはてブのアカウント名を設定
+
+##ファイルを出力するディレクトリを設定する
+以下のファイルに指定したディレクトリにファイルを出力します。  
+`resources/setting.yml`
+
+    export_dir: /users/xxxxx/Desktop
 
 ###実行
 スクリプトを実行すると、いくつか条件を指定します。
@@ -40,6 +46,7 @@
        port:
        user_name:
        password:
+    export_dir: /users/xxxxx/Desktop # ファイル出力先のディレクトリ
     get_feed_policy:
        max_days: 14             # 日付指定した場合に最大日数
        get_pages: 1             # 日付指定しなかった場合の最大ページ数(1ページ20件はてブを取得します)

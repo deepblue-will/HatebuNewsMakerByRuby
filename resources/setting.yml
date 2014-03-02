@@ -5,6 +5,7 @@ proxy:
    port:
    user_name:
    password:
+export_dir: 
 get_feed_policy:
    max_days: 14
    get_pages: 1
